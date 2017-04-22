@@ -11,8 +11,10 @@ import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.model.stockModel;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.udacity.stockhawk.R.id.price;
 
 /**
  * Created by Abdulrhman on 22/04/2017.
@@ -20,8 +22,8 @@ import java.util.List;
 
 public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
     Context context;
-    List<stockModel> stockModelList = Collections.EMPTY_LIST;
-    List<String> list = Collections.EMPTY_LIST;
+    List<stockModel> stockModelList = new ArrayList<>();
+
 
     public WidgetProvider(Context context, Intent intent) {
         this.context = context;
@@ -52,11 +54,12 @@ public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public RemoteViews getViewAt(int i) {
 
+
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.list_item_quote);
         stockModel model = stockModelList.get(i);
         views.setTextViewText(R.id.symbol, model.getSymbol());
         views.setTextViewText(R.id.change, model.getChange());
-        views.setTextViewText(R.id.price, String.valueOf(model.getPrice()));
+        views.setTextViewText(price, String.valueOf(model.getPrice()));
         return views;
     }
 
@@ -88,10 +91,17 @@ public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
         }
 
         if (!cursor.moveToFirst()) cursor.close();
-        String symbol = cursor.getString(cursor.getColumnIndex(Contract.Quote.COLUMN_SYMBOL));
-        String change = cursor.getString(cursor.getColumnIndex(Contract.Quote.COLUMN_ABSOLUTE_CHANGE));
-        float price = cursor.getFloat(cursor.getColumnIndex(Contract.Quote.COLUMN_PRICE));
-        stockModelList.add(new stockModel(symbol, price, change));
+
+        int count = cursor.getCount();
+        for (int i=0 ; i<count ; i++){
+            cursor.moveToPosition(i);
+            String symbol = cursor.getString(cursor.getColumnIndex(Contract.Quote.COLUMN_SYMBOL));
+            String change = cursor.getString(cursor.getColumnIndex(Contract.Quote.COLUMN_ABSOLUTE_CHANGE));
+            float price = cursor.getFloat(cursor.getColumnIndex(Contract.Quote.COLUMN_PRICE));
+            stockModelList.add(new stockModel(symbol, price, change));
+        }
+
+
         return stockModelList;
     }
 
