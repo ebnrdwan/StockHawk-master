@@ -56,7 +56,8 @@ public class WidgetClass extends AppWidgetProvider {
             remoteViews.setOnClickPendingIntent(R.id.headerWidgt, pendingIntent);
             Intent ListIntent = new Intent(context, DetailStock.class);
             ListIntent.setAction(ITEM_ACTION);
-            remoteViews.setPendingIntentTemplate(R.id.widgetList, pendingIntent);
+            PendingIntent pendingIntent1 = PendingIntent.getActivity(context, 0, ListIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setPendingIntentTemplate(R.id.widgetList, pendingIntent1);
             remoteViews.setOnClickFillInIntent(R.id.widgetList, ListIntent);
             Intent collectionintent = new Intent(context, MainActivity.class);
             collectionintent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appwidegtsid);

@@ -24,6 +24,7 @@ import static com.udacity.stockhawk.R.id.price;
 
 public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
     Context context;
+    Cursor cursor;
     List<stockModel> stockModelList = new ArrayList<>();
 
 
@@ -56,7 +57,8 @@ public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public RemoteViews getViewAt(int i) {
 
-        
+
+
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.list_item_quote);
         stockModel model = stockModelList.get(i);
