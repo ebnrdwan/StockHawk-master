@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
+import com.udacity.stockhawk.sync.QuoteIntentService;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -30,6 +31,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
     private final DecimalFormat percentageFormat;
     private Cursor cursor;
     private final StockAdapterOnClickHandler clickHandler;
+
 
     StockAdapter(Context context, StockAdapterOnClickHandler clickHandler) {
         this.context = context;
@@ -126,6 +128,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
             itemView.setOnClickListener(this);
         }
 
+
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(context,DetailStock.class);
@@ -140,7 +143,13 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
             int symbolColumn = cursor.getColumnIndex(Contract.Quote.COLUMN_SYMBOL);
             clickHandler.onClick(cursor.getString(symbolColumn));
 
+            Intent widgetIntent = new Intent(context, QuoteIntentService.class);
+            widgetIntent.putExtra("SYMBOL_CODE_SERVICE",getSymbolAtPosition(getAdapterPosition()));
+            context.startService(widgetIntent);
+
         }
+
+
 
 
     }

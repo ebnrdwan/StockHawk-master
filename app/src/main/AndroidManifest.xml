@@ -8,6 +8,7 @@
     <uses-permission android:name="android.Manifest.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
+
         android:name=".StockHawkApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -23,6 +24,17 @@
             </intent-filter>
         </activity>
 
+        <receiver
+            android:name=".ui.WidgetClass"
+            android:label="@string/widgetlabel">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" ></action>
+                <action android:name="com.udacity.stockhawk.app.ACTION_UPDATE"></action>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_today" />
+        </receiver>
         <service
             android:name=".sync.QuoteIntentService"
             android:exported="false" />
