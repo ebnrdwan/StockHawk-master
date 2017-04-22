@@ -88,13 +88,10 @@ public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
         }
 
         if (!cursor.moveToFirst()) cursor.close();
-
         String symbol = cursor.getString(cursor.getColumnIndex(Contract.Quote.COLUMN_SYMBOL));
         String change = cursor.getString(cursor.getColumnIndex(Contract.Quote.COLUMN_ABSOLUTE_CHANGE));
         float price = cursor.getFloat(cursor.getColumnIndex(Contract.Quote.COLUMN_PRICE));
         stockModelList.add(new stockModel(symbol, price, change));
-
-
         return stockModelList;
     }
 
