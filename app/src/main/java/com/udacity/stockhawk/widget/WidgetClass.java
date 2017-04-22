@@ -12,6 +12,7 @@ import android.widget.RemoteViews;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.sync.QuoteIntentService;
+import com.udacity.stockhawk.ui.DetailStock;
 import com.udacity.stockhawk.ui.MainActivity;
 
 /**
@@ -19,6 +20,9 @@ import com.udacity.stockhawk.ui.MainActivity;
  */
 
 public class WidgetClass extends AppWidgetProvider {
+    public static String HEADER_ACTION = "MAIN_ACTION";
+    public static String ITEM_ACTION = "ITEM_ACTION";
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -26,6 +30,14 @@ public class WidgetClass extends AppWidgetProvider {
 //        if (QuoteJobService.Action.equals(intent.getAction())) {
 //            context.startService(new Intent(context, QuoteIntentService.class));
 //        }
+        if (intent.getAction().equals(HEADER_ACTION)) {
+            Intent intent1 = new Intent(context, MainActivity.class);
+            context.startActivity(intent);
+        }
+        else if (intent.getAction().equals(ITEM_ACTION)){
+            Intent intent1 = new Intent(context, DetailStock.class);
+            context.startActivity(intent);
+        }
     }
 
     @Override
@@ -34,14 +46,19 @@ public class WidgetClass extends AppWidgetProvider {
         context.startService(new Intent(context, QuoteIntentService.class));
 
 
-
         for (int appwidegtsid : appWidgetIds) {
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-            Intent theintent = new Intent(context, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, theintent, 0);
+
+            Intent Headerintent = new Intent(context, MainActivity.class);
+            Headerintent.setAction(HEADER_ACTION);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, Headerintent, PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.headerWidgt, pendingIntent);
+            Intent ListIntent = new Intent(context, DetailStock.class);
+            ListIntent.setAction(ITEM_ACTION);
             remoteViews.setPendingIntentTemplate(R.id.widgetList, pendingIntent);
-            Intent collectionintent = new Intent(context, StockRemoteServices.class);
+            remoteViews.setOnClickFillInIntent(R.id.widgetList, ListIntent);
+            Intent collectionintent = new Intent(context, MainActivity.class);
             collectionintent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appwidegtsid);
             remoteViews.setRemoteAdapter(
                     R.id.widgetList,

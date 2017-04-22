@@ -1,9 +1,12 @@
 package com.udacity.stockhawk.widget;
 
 import android.content.Intent;
+import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.model.stockModel;
+import com.udacity.stockhawk.ui.MainActivity;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +20,9 @@ public class StockRemoteServices extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
+
         return new WidgetProvider(this, intent);
+
+
     }
 }

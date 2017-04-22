@@ -25,5 +25,6 @@
     <string name="priceOfStock" translatable="false">theToday price of the stock</string>
     <string name="widgetlabel">StockHawak</string>
     <string name="action_update">com.udacity.stockhawk.app.ACTION_UPDATE</string>
+    <string name="WidgetTitle">Stock Hawk</string>
 
 </resources>

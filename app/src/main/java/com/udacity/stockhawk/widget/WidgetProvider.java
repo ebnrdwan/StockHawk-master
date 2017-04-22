@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.model.stockModel;
+import com.udacity.stockhawk.ui.DetailStock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,12 +56,23 @@ public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public RemoteViews getViewAt(int i) {
 
+        
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.list_item_quote);
         stockModel model = stockModelList.get(i);
         views.setTextViewText(R.id.symbol, model.getSymbol());
         views.setTextViewText(R.id.change, model.getChange());
         views.setTextViewText(price, String.valueOf(model.getPrice()));
+
+        Intent intent = new Intent(context,DetailStock.class);
+        intent.putExtra("SYMBOL_CODE",model.getSymbol());
+
+        Uri mrui = Contract.Quote.makeUriForStock(model.getSymbol());
+        Log.d("TATA",model.getSymbol() + "\n "+ mrui.toString());
+
+        intent.setData(mrui);
+        views.setOnClickFillInIntent(R.id.wholeItemView,intent);
+//
         return views;
     }
 
