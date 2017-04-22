@@ -21,6 +21,7 @@ import java.util.List;
 public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
     Context context;
     List<stockModel> stockModelList = Collections.EMPTY_LIST;
+    List<String> list = Collections.EMPTY_LIST;
 
     public WidgetProvider(Context context, Intent intent) {
         this.context = context;
@@ -51,11 +52,11 @@ public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public RemoteViews getViewAt(int i) {
 
-       RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.list_item_quote);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.list_item_quote);
         stockModel model = stockModelList.get(i);
-        views.setTextViewText(R.id.symbol,model.getSymbol());
-        views.setTextViewText(R.id.change,model.getChange());
-        views.setTextViewText(R.id.price,String.valueOf(model.getPrice()));
+        views.setTextViewText(R.id.symbol, model.getSymbol());
+        views.setTextViewText(R.id.change, model.getChange());
+        views.setTextViewText(R.id.price, String.valueOf(model.getPrice()));
         return views;
     }
 
@@ -96,4 +97,6 @@ public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
 
         return stockModelList;
     }
+
+
 }
