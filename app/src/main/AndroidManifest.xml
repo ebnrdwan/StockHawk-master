@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.Manifest.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.BIND_REMOTEVIEWS"/>
+  
 
     <application
 
@@ -39,6 +39,8 @@
         <service
             android:name=".sync.QuoteIntentService"
             android:exported="false" />
+        <service android:name=".widget.RemoteServices"
+            android:permission="android.permission.BIND_REMOTEVIEWS"></service>
 
         <provider
             android:name=".data.StockProvider"
