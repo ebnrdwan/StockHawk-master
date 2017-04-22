@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.widget.RemoteViews;
+import android.widget.RemoteViewsService;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
@@ -17,7 +18,7 @@ import java.util.List;
  * Created by Abdulrhman on 22/04/2017.
  */
 
-public class WidgetProvider implements RemoteServices.RemoteViewsFactory {
+public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
     Context context;
     List<stockModel> stockModelList = Collections.EMPTY_LIST;
 
