@@ -34,7 +34,7 @@ public class DetailStock extends AppCompatActivity implements LoaderManager.Load
         setContentView(R.layout.activity_detail_stock);
         lineChart = (LineChart) findViewById(R.id.mylinechart);
         Intent intent = getIntent();
-        String symbol = intent.getStringExtra("SYMBOL_CODE");
+        String symbol = intent.getStringExtra(getString(R.string.symbolcode));
         mUri = intent.getData();
         getSupportLoaderManager().initLoader(1, null, this);
 

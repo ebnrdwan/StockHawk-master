@@ -26,5 +26,6 @@
     <string name="widgetlabel">StockHawak</string>
     <string name="action_update">com.udacity.stockhawk.app.ACTION_UPDATE</string>
     <string name="WidgetTitle">Stock Hawk</string>
+    <string name="symbolcode">SYMBOL_CODE</string>
 
 </resources>

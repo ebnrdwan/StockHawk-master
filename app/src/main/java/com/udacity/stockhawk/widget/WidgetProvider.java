@@ -38,7 +38,7 @@ public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
     @Override
 
     public void onCreate() {
-        getData(context);
+
     }
 
     @Override
@@ -96,7 +96,8 @@ public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
         views.setTextViewText(R.id.symbol,symbol);
         views.setTextViewText(R.id.price, price);
         Intent intent = new Intent(context, DetailStock.class);
-        intent.putExtra("SYMBOL_CODE", model.getSymbol());
+        intent.putExtra(context.getString(R.string.symbolcode), model.getSymbol());
+
         Uri mrui = Contract.Quote.makeUriForStock(model.getSymbol());
         Log.d("TATA", model.getSymbol() + "\n " + mrui.toString()+"\n"+change +"\n"+model.getChangePercent()+"\n"+model.getSymbol()+"\n"+model.getPrice());
 

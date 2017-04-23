@@ -134,7 +134,7 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
         public void onClick(View v) {
             Intent intent = new Intent(context,DetailStock.class);
             intent.setData(Contract.Quote.makeUriForStock(getSymbolAtPosition(getAdapterPosition())));
-            intent.putExtra("SYMBOL_CODE",getSymbolAtPosition(getAdapterPosition()));
+            intent.putExtra(context.getString(R.string.symbolcode),getSymbolAtPosition(getAdapterPosition()));
             Uri mrui = Contract.Quote.makeUriForStock(getSymbolAtPosition(getAdapterPosition()));
             intent.setData(mrui);
 
