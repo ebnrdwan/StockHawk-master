@@ -1,16 +1,16 @@
 <resources>
     <string name="app_name">Stock Hawk</string>
     <string name="pref_stocks_initialized_key" translatable="false">initialized</string>
-    <string name="pref_stocks_key">stocks</string>
-    <string name="pref_display_mode_key">displayMode</string>
-    <string name="pref_display_mode_default">@string/pref_display_mode_percentage_key</string>
-    <string name="pref_display_mode_absolute_key">absolute</string>
-    <string name="pref_display_mode_percentage_key">percentage</string>
+    <string name="pref_stocks_key" translatable="false">stocks</string>
+    <string name="pref_display_mode_key" translatable="false">displayMode</string>
+    <string name="pref_display_mode_default" translatable="false">@string/pref_display_mode_percentage_key</string>
+    <string name="pref_display_mode_absolute_key" translatable="false">absolute</string>
+    <string name="pref_display_mode_percentage_key" translatable="false">percentage</string>
     <string name="default_stocks_yahoo">YHOO</string>
     <string name="default_stocks_apple">AAPL</string>
     <string name="default_stocks_microsoft">MSFT</string>
     <string name="default_stocks_facebook">FB</string>
-    <string name="action_change_units">@string/pref_display_mode_key</string>
+    <string name="action_change_units" translatable="false">@string/pref_display_mode_key</string>
     <string name="dialog_title">Add Stock</string>
     <string name="dialog_hint">Symbol (e.g. GOOG)</string>
     <string name="dialog_cancel">Cancel</string>
@@ -23,9 +23,11 @@
     <string name="symbolDescription" translatable="false">the symbol of the stock</string>
     <string name="changedValue" translatable="false">the amount of the changed value of the stock </string>
     <string name="priceOfStock" translatable="false">theToday price of the stock</string>
-    <string name="widgetlabel">StockHawak</string>
-    <string name="action_update">com.udacity.stockhawk.app.ACTION_UPDATE</string>
+    <string name="widgetlabel" translatable="false">StockHawak</string>
+    <string name="action_update" translatable="false">com.udacity.stockhawk.app.ACTION_UPDATE</string>
     <string name="WidgetTitle">Stock Hawk</string>
-    <string name="symbolcode">SYMBOL_CODE</string>
+    <string name="symbolcode" translatable="false">SYMBOL_CODE</string>
+    <string name="foo">to add a new stock</string>
+    <string name="intentcode">Intent handled</string>
 
 </resources>
