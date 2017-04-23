@@ -10,13 +10,15 @@ import android.widget.RemoteViewsService;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
+import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.model.stockModel;
 import com.udacity.stockhawk.ui.DetailStock;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.udacity.stockhawk.R.id.price;
+import java.util.Locale;
 
 /**
  * Created by Abdulrhman on 22/04/2017.
@@ -25,6 +27,7 @@ import static com.udacity.stockhawk.R.id.price;
 public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
     Context context;
     Cursor cursor;
+
     List<stockModel> stockModelList = new ArrayList<>();
 
 
@@ -57,23 +60,48 @@ public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public RemoteViews getViewAt(int i) {
 
-
-
-
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.list_item_quote);
+        DecimalFormat dollarFormatWithPlus;
+        DecimalFormat dollarFormat;
+        DecimalFormat percentageFormat;
         stockModel model = stockModelList.get(i);
-        views.setTextViewText(R.id.symbol, model.getSymbol());
-        views.setTextViewText(R.id.change, model.getChange());
-        views.setTextViewText(price, String.valueOf(model.getPrice()));
 
-        Intent intent = new Intent(context,DetailStock.class);
-        intent.putExtra("SYMBOL_CODE",model.getSymbol());
+        dollarFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
+        dollarFormatWithPlus = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
+        dollarFormatWithPlus.setPositivePrefix("+$");
+        percentageFormat = (DecimalFormat) NumberFormat.getPercentInstance(Locale.getDefault());
+        percentageFormat.setMaximumFractionDigits(2);
+        percentageFormat.setMinimumFractionDigits(2);
+        percentageFormat.setPositivePrefix("+");
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.list_item_quote);
+        float rawAbsoluteChange = Float.valueOf(model.getChange());
+        float percentageChange = Float.valueOf(model.getChangePercent());
 
+        if (rawAbsoluteChange > 0) {
+            views.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_green);
+        } else {
+            views.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_red);
+        }
+        String change = dollarFormatWithPlus.format(rawAbsoluteChange);
+        String percentage = percentageFormat.format(percentageChange / 100);
+        String symbol = model.getSymbol();
+        String price = dollarFormat.format(model.getPrice());
+
+        if (PrefUtils.getDisplayMode(context)
+                .equals(context.getString(R.string.pref_display_mode_absolute_key))) {
+            views.setTextViewText(R.id.change,change);
+        } else {
+            views.setTextViewText(R.id.change,percentage);
+        }
+
+        views.setTextViewText(R.id.symbol,symbol);
+        views.setTextViewText(R.id.price, price);
+        Intent intent = new Intent(context, DetailStock.class);
+        intent.putExtra("SYMBOL_CODE", model.getSymbol());
         Uri mrui = Contract.Quote.makeUriForStock(model.getSymbol());
-        Log.d("TATA",model.getSymbol() + "\n "+ mrui.toString());
+        Log.d("TATA", model.getSymbol() + "\n " + mrui.toString()+"\n"+change +"\n"+model.getChangePercent()+"\n"+model.getSymbol()+"\n"+model.getPrice());
 
         intent.setData(mrui);
-        views.setOnClickFillInIntent(R.id.wholeItemView,intent);
+        views.setOnClickFillInIntent(R.id.wholeItemView, intent);
 //
         return views;
     }
@@ -99,6 +127,9 @@ public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public List<stockModel> getData(Context context) {
+
+
+        stockModelList.clear();
         Uri uri = Contract.Quote.URI;
         Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
         if (cursor == null) {
@@ -108,12 +139,14 @@ public class WidgetProvider implements RemoteViewsService.RemoteViewsFactory {
         if (!cursor.moveToFirst()) cursor.close();
 
         int count = cursor.getCount();
-        for (int i=0 ; i<count ; i++){
+        for (int i = 0; i < count; i++) {
             cursor.moveToPosition(i);
             String symbol = cursor.getString(cursor.getColumnIndex(Contract.Quote.COLUMN_SYMBOL));
-            String change = cursor.getString(cursor.getColumnIndex(Contract.Quote.COLUMN_ABSOLUTE_CHANGE));
+
             float price = cursor.getFloat(cursor.getColumnIndex(Contract.Quote.COLUMN_PRICE));
-            stockModelList.add(new stockModel(symbol, price, change));
+            float AbsoluteChange = cursor.getFloat(cursor.getColumnIndex(Contract.Quote.COLUMN_ABSOLUTE_CHANGE));
+            float percentageChange = cursor.getFloat(cursor.getColumnIndex(Contract.Quote.COLUMN_PERCENTAGE_CHANGE));
+            stockModelList.add(new stockModel(symbol, price, String.valueOf(AbsoluteChange), String.valueOf(percentageChange)));
         }
 
 

@@ -8,11 +8,22 @@ public class stockModel {
     private String symbol;
     private float price;
     private String change ;
+    private String changePercent;
 
-    public stockModel(String symbol, float price, String change) {
+    public String getChangePercent() {
+        return changePercent;
+    }
+
+    public void setChangePercent(String changePercent) {
+        this.changePercent = changePercent;
+    }
+
+    public stockModel(String symbol, float price, String change, String changePercent) {
         this.symbol = symbol;
         this.price = price;
         this.change = change;
+        this.changePercent= changePercent;
+
     }
 
     public String getSymbol() {
